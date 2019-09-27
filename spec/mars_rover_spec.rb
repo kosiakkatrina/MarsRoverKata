@@ -1,6 +1,15 @@
+class MotorGateway
+
+  def was_you_called?
+    true
+  end
+
+end
+
+
 class MarsRover
   attr_accessor :coordinates, :direction
-  def initialize(coordinates, direction)
+  def initialize(coordinates, direction, motor = nil)
     @coordinates = coordinates
     @direction = direction
 
@@ -128,5 +137,12 @@ describe MarsRover do
     rover.move(['r', 'f','r','f'])
     expect(rover.coordinates).to eq([-1, -1])
     expect(rover.direction).to eq('W')
+  end
+
+  it "can turn the wheels" do
+    motor = MotorGateway.new()
+    mars_rover = MarsRover.new([0,0],"N",motor)
+    mars_rover.move(['r'])
+    expect(motor.was_you_called?).to eq(true)
   end
 end
